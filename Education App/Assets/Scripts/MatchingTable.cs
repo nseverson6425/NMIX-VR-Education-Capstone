@@ -8,9 +8,15 @@ public class MatchingTable : MonoBehaviour
 {
     public TMP_Text helpMessage;
     public Button checkButton;
+    public Button spawnButton;
+    public TMP_Text scoreCount;
+    public GameObject blockPrefab;
+    public Transform spawnPoint;
 
+    private int score;
     private List<MatchBlock> matchBlocks;
     private bool readyToMatch = true;
+    private IEnumerator coroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +25,8 @@ public class MatchingTable : MonoBehaviour
         helpMessage.text = "Place blocks here to match!";
         checkButton.gameObject.SetActive(false);
         checkButton.onClick.AddListener(CheckMatch);
+        spawnButton.onClick.AddListener(SpawnBlock);
+        score = 0;
     }
 
     // Update is called once per frame
@@ -51,6 +59,20 @@ public class MatchingTable : MonoBehaviour
         }
     }
 
+    private void SpawnBlock()
+    {
+        Instantiate(blockPrefab, spawnPoint);
+    }
+
+    IEnumerator WaitAndPrint(MatchBlock m1, MatchBlock m2)
+    {
+        // suspend execution for 5 seconds
+        yield return new WaitForSeconds(2);
+        Destroy(m1);
+        Destroy(m2);
+        readyToMatch = true;
+    }
+
     private void CheckMatch()
     {
         MatchBlock m1 = matchBlocks[0];
@@ -62,12 +84,18 @@ public class MatchingTable : MonoBehaviour
             // they match
             helpMessage.text = "It's a match!";
             readyToMatch = false;
+            score += 1;
+            scoreCount.text = score.ToString();
+            coroutine = WaitAndPrint(m1, m2);
+            StartCoroutine(coroutine);
         }
         else
         {
             // they don't match
             helpMessage.text = "That doesn't look quite right";
             readyToMatch = false;
+            coroutine = WaitAndPrint(m1, m2);
+            StartCoroutine(coroutine);
         }
     }
 
