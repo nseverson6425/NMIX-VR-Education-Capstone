@@ -7,15 +7,12 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public ParticleSystem explosionEffect; // reference to particle system with explosion effect
+    
+    public void Explode()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        explosionEffect.Play(); // play effect\
+        GetComponent<MeshRenderer>().forceRenderingOff = true;
+        Destroy(gameObject, 3f); // destroy self
     }
 }
