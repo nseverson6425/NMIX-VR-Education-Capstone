@@ -10,6 +10,12 @@ public class SlideGameController : MonoBehaviour
     public TextMeshProUGUI questionText; // reference to question display text
     public Transform bombCradleTransform;
     public GameObject projectilePrefab;
+    public Image questionDisplayBackground; // background for question display
+    public LevelLoader levelLoader; // class for switching between scenes
+
+    // leaderboard stuff
+    public GameObject leaderBoard;
+    public TextMeshProUGUI leaderBoardScoreText;
 
     // control canvas references
     public Canvas controlCanvas; // reference to control canvas
@@ -25,6 +31,9 @@ public class SlideGameController : MonoBehaviour
     public TextMeshProUGUI studySetNameText; // reference to tile on board
     public TextMeshProUGUI boardGameTimerText;
     public TextMeshProUGUI menuGameTimerText;
+
+    public float timeToWaitForDisplayReset = 1f; // how long to wait from display explosion to reset
+    public float timePenaltyInSeconds = 5f;
 
     private List<Set> sets = new List<Set>(); // list containing all the sets to display in-game
     private List<string> allAnswers = new List<string>(); // list of all answers in sets
@@ -49,8 +58,16 @@ public class SlideGameController : MonoBehaviour
     private bool isTiming = false;
     public int timeLimitSeconds = 5; // how many seconds the game can go on for
 
-    public enum CheckAnswerStatus 
-    { 
+
+    private GameObject trackedProjectile; // keeps reference to projectile in scene
+
+
+    // advance game
+    public bool advanceQuestion = false;
+    public bool skipQuestion = false;
+
+    public enum CheckAnswerStatus
+    {
         Unchecked, // answer yet to be checked
         Correct, // answer was correct
         Incorrect, // answer was wrong
@@ -108,8 +125,10 @@ public class SlideGameController : MonoBehaviour
         pauseButton.onClick.AddListener(DisplayControlCanvasAsPause);
         exitMenuButton.onClick.AddListener(HideControlCanvas);
         nextQuestionButton.onClick.AddListener(WrapUpQuestion);
+        skipQuestionButtion.onClick.AddListener(SkipQuestion);
+        mainMenuButton.onClick.AddListener(LoadMainMenu);
 
-        studySetNameText.SetText(studySetName); // set title as study set name
+        leaderBoard.SetActive(false);
 
         // create sets for the list
         CreateSet("The water cycle is also called the ... ?", CreateAnswerList("Hydrologic Cycle"), Set.QuestionType.MultipleChoice);
@@ -120,8 +139,8 @@ public class SlideGameController : MonoBehaviour
         CreateSet("When water leaves a body of water after it is heated, the process is called ... ?", CreateAnswerList("Evaporation"), Set.QuestionType.MultipleChoice);
         CreateSet("When water falls from the sky, the process is known as ... ?", CreateAnswerList("Precipitation"), Set.QuestionType.MultipleChoice);
         CreateSet("When water hits land and is soaked into the ground, the water becomes ... ?", CreateAnswerList("Ground Water"), Set.QuestionType.MultipleChoice);
-        CreateSet("True or False: The water cycle is a continual process?", CreateAnswerList("True"), Set.QuestionType.TrueOrFalse);
-        CreateSet("True or False: Transpiration is a process that occurs on plants and animals?", CreateAnswerList("False"), Set.QuestionType.TrueOrFalse);
+        /*CreateSet("True or False: The water cycle is a continual process?", CreateAnswerList("True"), Set.QuestionType.TrueOrFalse);
+        CreateSet("True or False: Transpiration is a process that occurs on plants and animals?", CreateAnswerList("False"), Set.QuestionType.TrueOrFalse);*/
 
         answerControllers = new List<AnswerController>();
 
@@ -135,7 +154,7 @@ public class SlideGameController : MonoBehaviour
             }
             else
             {
-                answerControllers.Add(ac);    
+                answerControllers.Add(ac);
             }
         }
 
@@ -144,9 +163,18 @@ public class SlideGameController : MonoBehaviour
         {
             ac.SetSlideGameControllerReference(this); // set reference
         }
+    }
 
+    private void LoadMainMenu()
+    {
+        levelLoader.LoadMainMenu();
+    }
+
+    public void StartGame(string studyDeckName)
+    {
         // create first question
         Debug.Log("Initialize first question");
+        studySetNameText.SetText(studySetName); // set title as study set name
         isTiming = true; // start game counter
         InitializeQuestion();
     }
@@ -154,6 +182,17 @@ public class SlideGameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (advanceQuestion) // advance question from inspector
+        {
+            advanceQuestion = false;
+            WrapUpQuestion();
+        }
+        if (skipQuestion)
+        {
+            skipQuestion = false;
+            SkipQuestion();
+        }
+
         // run once question is either correct or false
         if (!(questionStatus == CheckAnswerStatus.Unchecked || questionStatus == CheckAnswerStatus.AwaitingNextAnswer))
         {
@@ -165,6 +204,78 @@ public class SlideGameController : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             SetGameTimers();
+        }
+    }
+
+    private void SkipQuestion()
+    {
+        StartCoroutine(TimePenaltyAnimationCorountine());
+    }
+
+    private IEnumerator TimePenaltyAnimationCorountine()
+    {
+        Color32 orange = new Color32(0xF9, 0x7A, 0x3F, 0xFF);
+        Color32 blue = new Color32(0x00, 0xB8, 0xE3, 0xFF);
+
+
+        StartCoroutine(UpdateTextWithFadeCoroutine(questionText, "", 1f)); //clear text
+        
+        questionDisplayBackground.color = orange; // change to orange
+        
+        yield return new WaitForSeconds(0.2f);
+        questionDisplayBackground.color = blue; // change to blue 
+
+        yield return new WaitForSeconds(0.2f);
+        questionDisplayBackground.color = orange; // change to orange
+
+        yield return new WaitForSeconds(0.2f);
+        questionDisplayBackground.color = blue; // change to blue
+
+        yield return new WaitForSeconds(0.2f);
+        questionDisplayBackground.color = orange; // change to orange
+
+        string timePenaltyText = "TIME PENALTY\n" + timePenaltyInSeconds + " second(s)";
+        isTiming = false;
+
+        StartCoroutine(UpdateTextWithFadeCoroutine(questionText, timePenaltyText, 1f)); // display time penalty text
+
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(UpdateTextWithFadeCoroutine(questionText, "", 1f)); // clear text
+
+        yield return new WaitForSeconds(1f);
+        questionDisplayBackground.color = blue; // change to blue
+        elapsedTime += timePenaltyInSeconds;
+        isTiming = true;
+        WrapUpQuestion();
+    }
+
+    private IEnumerator UpdateTextWithFadeCoroutine(TextMeshProUGUI textUI, string newText, float fadeTime)
+    {
+        Debug.Log("fading out text");
+        StartCoroutine(FadeTextToZeroAlpha(fadeTime * 0.5f, textUI)); //fade out
+        yield return new WaitForSeconds(fadeTime * 0.6f); //wait for fade out
+        Debug.Log("replacing and fading in text");
+        textUI.SetText(newText); //replace text
+        StartCoroutine(FadeTextToFullAlpha(fadeTime * 0.5f, textUI)); // fade in
+    }
+
+    public IEnumerator FadeTextToFullAlpha(float time, TextMeshProUGUI textToFadeIn)
+    {
+        textToFadeIn.color = new Color(textToFadeIn.color.r, textToFadeIn.color.g, textToFadeIn.color.b, 0);
+        while (textToFadeIn.color.a < 1.0f)
+        {
+            textToFadeIn.color = new Color(textToFadeIn.color.r, textToFadeIn.color.g, textToFadeIn.color.b, textToFadeIn.color.a + (Time.deltaTime / time));
+            yield return null;
+        }
+    }
+
+    public IEnumerator FadeTextToZeroAlpha(float time, TextMeshProUGUI textToFadeOut)
+    {
+        textToFadeOut.color = new Color(textToFadeOut.color.r, textToFadeOut.color.g, textToFadeOut.color.b, 1);
+        while (textToFadeOut.color.a > 0.0f)
+        {
+            textToFadeOut.color = new Color(textToFadeOut.color.r, textToFadeOut.color.g, textToFadeOut.color.b, textToFadeOut.color.a - (Time.deltaTime / time));
+            yield return null;
         }
     }
 
@@ -180,7 +291,7 @@ public class SlideGameController : MonoBehaviour
         menuGameTimerText.SetText(string.Format("{0}/{1}", seconds, timeLimitSeconds));
 
         // check for out of time end condition
-        if (seconds >= timeLimitSeconds)
+        if (elapsedTime >= timeLimitSeconds)
         {
             EndGame();
         }
@@ -197,9 +308,9 @@ public class SlideGameController : MonoBehaviour
 
         foreach (AnswerController ac in answerControllers)
         {
-            ac.InitiateDestruction();
-            IEnumerator coroutine = WaitAndPrint(1f, ac);
-            StartCoroutine(coroutine);
+            ac.InitiateDestruction(true);
+            //IEnumerator coroutine = WaitAndPrint(timeToWaitForDisplayReset, ac);
+            //StartCoroutine(coroutine);
         }
         questionStatus = CheckAnswerStatus.Unchecked; // reset answer check state
         numOfSelectedAnswers = 0; // reset number of selected answers
@@ -213,14 +324,20 @@ public class SlideGameController : MonoBehaviour
 
         foreach (AnswerController ac in answerControllers)
         {
-            ac.InitiateDestruction();
+            ac.InitiateDestruction(false);
         }
         numOfSelectedAnswers = 0; // reset number of selected answers
 
         DisplayControlCanvasEndGame(); // display menu for end of game
 
-        questionText.SetText("GAME OVER");
+        StartCoroutine(UpdateTextWithFadeCoroutine(questionText, "GAME OVER\ncheck leaderboard!", 1f));
+
+        //questionText.SetText("GAME OVER");
         isTiming = false;
+
+        string boardScoreText = playerScore + " correct in " + timeLimitSeconds + "s";
+        leaderBoard.SetActive(true);
+        leaderBoardScoreText.SetText(boardScoreText);
     }
 
     private IEnumerator WaitAndPrint(float waitTime, AnswerController ac)
@@ -228,6 +345,7 @@ public class SlideGameController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
+            Debug.Log("Reseting display");
             ac.ResetDisplay();
         }
     }
@@ -239,8 +357,13 @@ public class SlideGameController : MonoBehaviour
         Vector3 spawnTransform = new Vector3(bombCradleTransform.position.x,
             bombCradleTransform.position.y + 0.5f,
             bombCradleTransform.position.z);
-        // spawn projectile
-        Instantiate(projectilePrefab, spawnTransform, Quaternion.identity);
+
+        // ensure there's only one in the scene
+        //if (trackedProjectile == null)
+        //{
+            // spawn projectile
+            trackedProjectile = Instantiate(projectilePrefab, spawnTransform, Quaternion.identity);
+        //}
     }
 
     public void InitializeQuestion()
@@ -250,14 +373,26 @@ public class SlideGameController : MonoBehaviour
         bool isValid = false;
         SpawnNewProjectile(); // add projectile to scene
 
+        if (usedQuestions.Count == sets.Count)
+        {
+            Debug.Log("used all questions in the set, resetting questions");
+            usedQuestions.Clear();
+        }
+
+        int count = 0;
         // get a valid set index from sets
         while (!isValid)
         {
+            count++;
             selectedIndex = Random.Range(0, sets.Count); // random index between 0 and size of sets - 1 (max exclusive)
             if (!usedQuestions.Contains(selectedIndex)) // usedQuestions does NOT contain selected index
             {
                 isValid = true;
                 usedQuestions.Add(selectedIndex); // add this set to used questions list
+            }
+            if (count >= 1000)
+            {
+                break;
             }
         }
 
@@ -269,26 +404,34 @@ public class SlideGameController : MonoBehaviour
         currentQuestion = sets[selectedIndex];
 
         List<string> selectedAnswers = new List<string>();
-        
-        //add correct answers
-        foreach (string a in currentQuestion.answers)
-        {
-            selectedAnswers.Add(a); // add answers from answers list in set
-        }
 
-        int maxNumOfAnswers = allAnswers.Count - selectedAnswers.Count; // determines number of displays
-        if (maxNumOfAnswers >= 4)
+        if (currentQuestion.questionType == Set.QuestionType.TrueOrFalse)
         {
-            maxNumOfAnswers = 4; // maximum number of displays is 4
+            selectedAnswers.Add("True");
+            selectedAnswers.Add("False");
         }
-
-        // add incorrect answers
-        while (selectedAnswers.Count < maxNumOfAnswers)
+        else // for multiple choice questions
         {
-            string selectedAnswer = allAnswers[Random.Range(0, allAnswers.Count)];
-            if (!(selectedAnswers.Contains(selectedAnswer)))
+            //add correct answers
+            foreach (string a in currentQuestion.answers)
             {
-                selectedAnswers.Add(selectedAnswer); // add random answer to list of selected answers
+                selectedAnswers.Add(a); // add answers from answers list in set
+            }
+
+            int maxNumOfAnswers = allAnswers.Count - selectedAnswers.Count; // determines number of displays
+            if (maxNumOfAnswers >= 4)
+            {
+                maxNumOfAnswers = 4; // maximum number of displays is 4
+            }
+
+            // add incorrect answers
+            while (selectedAnswers.Count < maxNumOfAnswers)
+            {
+                string selectedAnswer = allAnswers[Random.Range(0, allAnswers.Count)];
+                if (!(selectedAnswers.Contains(selectedAnswer)))
+                {
+                    selectedAnswers.Add(selectedAnswer); // add random answer to list of selected answers
+                }
             }
         }
 
@@ -299,7 +442,8 @@ public class SlideGameController : MonoBehaviour
 
         Debug.Log("setting up question text");
         // display question on board
-        questionText.SetText(currentQuestion.question);
+        //questionText.SetText(currentQuestion.question);
+        StartCoroutine(UpdateTextWithFadeCoroutine(questionText, currentQuestion.question, 1f));
     }
 
     // sets the content of the displays
@@ -331,7 +475,7 @@ public class SlideGameController : MonoBehaviour
             case 1:
                 // active displays
                 display0.SetActive(true);
-                display0.transform.position = new Vector3(-4, 1.5f, 0);
+                display0.transform.position = new Vector3(-3, 1.5f, 0);
                 display0.transform.eulerAngles = new Vector3(0, 0, 0);
 
                 // inactive displays
@@ -342,11 +486,11 @@ public class SlideGameController : MonoBehaviour
             case 2:
                 // active displays
                 display0.SetActive(true);
-                display0.transform.position = new Vector3(-4, 1.5f, -2.5f);
+                display0.transform.position = new Vector3(-3, 1.5f, -2.5f);
                 display0.transform.eulerAngles = new Vector3(0, 0, 0);
 
                 display1.SetActive(true);
-                display1.transform.position = new Vector3(-4, 1.5f, 2.5f);
+                display1.transform.position = new Vector3(-3, 1.5f, 2.5f);
                 display1.transform.eulerAngles = new Vector3(0, 0, 0);
 
                 // inactive displays
@@ -356,15 +500,15 @@ public class SlideGameController : MonoBehaviour
             case 3:
                 // active displays
                 display0.SetActive(true);
-                display0.transform.position = new Vector3(-2, 1.5f, -4f);
+                display0.transform.position = new Vector3(-1.5f, 1.5f, -4f);
                 display0.transform.eulerAngles = new Vector3(0, 315, 0);
 
                 display1.SetActive(true);
-                display1.transform.position = new Vector3(-4, 1.5f, 0);
+                display1.transform.position = new Vector3(-3, 1.5f, 0);
                 display1.transform.eulerAngles = new Vector3(0, 0, 0);
 
                 display2.SetActive(true);
-                display2.transform.position = new Vector3(-2, 1.5f, 4);
+                display2.transform.position = new Vector3(-1.5f, 1.5f, 4);
                 display2.transform.eulerAngles = new Vector3(0, 45, 0);
 
                 // inactive displays

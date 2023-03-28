@@ -5,9 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Slide Game.unity
+    guid: 6a5bb9cb9486b45dba5050b44bdc13de
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: e795735e975c2514a88c93ce5742df8a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 28930fda5dce4264c82b4ac7e7973d2d, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 30364b7f39b318b4d91b048140e1fdc2, type: 2}

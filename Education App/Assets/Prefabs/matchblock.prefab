@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2611611793279297560}
   - component: {fileID: 5139130731927472061}
   - component: {fileID: 2395433384296306853}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 2142559089305889082}
   - component: {fileID: 4390017802133442676}
   - component: {fileID: 1185132014355828201}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: matchblock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 7004287580208208776}
   - component: {fileID: 8977043059670105215}
   - component: {fileID: 2618997572980768056}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
