@@ -1,0 +1,254 @@
+fileFormatVersion: 2
+guid: 67542da58e65cba4b8965f55e2031d17
+timeCreated: 1524521574
+licenseType: Store
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Blue Flower
+    100002: //RootNode
+    100004: Generic Tree 1
+    100006: Generic Tree 2
+    100008: Generic Tree 3
+    100010: Generic Tree 4
+    100012: Mushroom
+    100014: Mushroom 2
+    100016: Mushroom 3
+    100018: Orange Flower
+    100020: Pine Tree 1
+    100022: Pine Tree 2
+    100024: Pine Tree 3
+    100026: Pine Tree 4
+    100028: Purple Flower
+    100030: Red Flower
+    100032: Rock 1
+    100034: Rock 2
+    100036: Rock 3
+    100038: Rock 4
+    100040: Rock 4.001
+    100042: Rock 5
+    100044: Rock 6
+    100046: Rock 7
+    100048: Rock 8
+    100050: Sky-Blue Flower
+    400000: Blue Flower
+    400002: //RootNode
+    400004: Generic Tree 1
+    400006: Generic Tree 2
+    400008: Generic Tree 3
+    400010: Generic Tree 4
+    400012: Mushroom
+    400014: Mushroom 2
+    400016: Mushroom 3
+    400018: Orange Flower
+    400020: Pine Tree 1
+    400022: Pine Tree 2
+    400024: Pine Tree 3
+    400026: Pine Tree 4
+    400028: Purple Flower
+    400030: Red Flower
+    400032: Rock 1
+    400034: Rock 2
+    400036: Rock 3
+    400038: Rock 4
+    400040: Rock 4.001
+    400042: Rock 5
+    400044: Rock 6
+    400046: Rock 7
+    400048: Rock 8
+    400050: Sky-Blue Flower
+    2100000: Pine Tree Brown
+    2100002: Pine Tree Green
+    2100004: Flower Stem Green
+    2100006: Flower Center Yellow
+    2100008: Flower Orange
+    2100010: Flower Blue
+    2100012: Flower Purple
+    2100014: Flower Red
+    2100016: Flower Sky-Blue
+    2100018: Tree Alt Brown
+    2100020: Tree Brown
+    2100022: Tree Alt Green
+    2100024: Tree Green
+    2100026: Rock Alt Grey
+    2100028: Rock Grey
+    2100030: Mushroom Tan
+    2100032: Mushroom Alt Tan
+    2100034: Mushroom Red
+    2100036: Mushroom Alt Red
+    2300000: Blue Flower
+    2300002: Generic Tree 1
+    2300004: Generic Tree 2
+    2300006: Generic Tree 3
+    2300008: Generic Tree 4
+    2300010: Mushroom
+    2300012: Mushroom 2
+    2300014: Mushroom 3
+    2300016: Orange Flower
+    2300018: Pine Tree 1
+    2300020: Pine Tree 2
+    2300022: Pine Tree 3
+    2300024: Pine Tree 4
+    2300026: Purple Flower
+    2300028: Red Flower
+    2300030: Rock 1
+    2300032: Rock 2
+    2300034: Rock 3
+    2300036: Rock 4
+    2300038: Rock 4.001
+    2300040: Rock 5
+    2300042: Rock 6
+    2300044: Rock 7
+    2300046: Rock 8
+    2300048: Sky-Blue Flower
+    3300000: Blue Flower
+    3300002: Generic Tree 1
+    3300004: Generic Tree 2
+    3300006: Generic Tree 3
+    3300008: Generic Tree 4
+    3300010: Mushroom
+    3300012: Mushroom 2
+    3300014: Mushroom 3
+    3300016: Orange Flower
+    3300018: Pine Tree 1
+    3300020: Pine Tree 2
+    3300022: Pine Tree 3
+    3300024: Pine Tree 4
+    3300026: Purple Flower
+    3300028: Red Flower
+    3300030: Rock 1
+    3300032: Rock 2
+    3300034: Rock 3
+    3300036: Rock 4
+    3300038: Rock 4.001
+    3300040: Rock 5
+    3300042: Rock 6
+    3300044: Rock 7
+    3300046: Rock 8
+    3300048: Sky-Blue Flower
+    4300000: Pine Tree 3
+    4300002: Pine Tree 2
+    4300004: Pine Tree 4
+    4300006: Orange Flower
+    4300008: Blue Flower
+    4300010: Purple Flower
+    4300012: Red Flower
+    4300014: Sky-Blue Flower
+    4300016: Generic Tree 4
+    4300018: Generic Tree 3
+    4300020: Generic Tree 2
+    4300022: Rock 4.001
+    4300024: Rock 4
+    4300026: Rock 8
+    4300028: Rock 5
+    4300030: Rock 7
+    4300032: Rock 2
+    4300034: Rock 3
+    4300036: Rock 1
+    4300038: Rock 6
+    4300040: Mushroom 3
+    4300042: Mushroom 2
+    4300044: Mushroom
+    4300046: Generic Tree 1
+    4300048: Pine Tree 1
+    7400000: Generic Tree 4|ArmatureAction
+    7400002: Generic Tree 4|Camera.001Action
+    7400004: Generic Tree 4|Camera.001Action.001
+    7400006: Generic Tree 4|CameraAction
+    7400008: Generic Tree 4|PlaneAction.001
+    7400010: Generic Tree 3|ArmatureAction
+    7400012: Generic Tree 3|Camera.001Action
+    7400014: Generic Tree 3|Camera.001Action.001
+    7400016: Generic Tree 3|CameraAction
+    7400018: Generic Tree 3|PlaneAction.001
+    7400020: Generic Tree 2|ArmatureAction
+    7400022: Generic Tree 2|Camera.001Action
+    7400024: Generic Tree 2|Camera.001Action.001
+    7400026: Generic Tree 2|CameraAction
+    7400028: Generic Tree 2|PlaneAction.001
+    7400030: Generic Tree 1|ArmatureAction
+    7400032: Generic Tree 1|Camera.001Action
+    7400034: Generic Tree 1|Camera.001Action.001
+    7400036: Generic Tree 1|CameraAction
+    7400038: Generic Tree 1|PlaneAction.001
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

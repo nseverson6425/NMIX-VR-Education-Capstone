@@ -1,0 +1,7 @@
+Hello, user! Just a quick few notes on the subject. First, I recommend not using Unity's terrain object placement because it doesn't work (and the trees mode is not performant), which means that if you want to place the objects on a terrain I highly recommmend getting an asset such as Simple Tools, or a similar asset. That one is available free here: 
+https://assetstore.unity.com/packages/tools/utilities/simple-tools-108464
+Another asset similar in function is Object Distributor, available free here:
+https://assetstore.unity.com/packages/tools/utilities/object-distributor-113438.
+Enjoy! 
+
+PS: I have no affiliation with either of those assets, but I have noticed that such an asset would greatly improve the power of my own. I find the first more powerful than the second, but both work.
