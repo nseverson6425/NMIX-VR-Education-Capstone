@@ -14,4 +14,8 @@ public class LevelLoader : MonoBehaviour
     {
         SceneManager.LoadScene("Slide Game");
     }
+
+    public void LoadBowGame() {
+        SceneManager.LoadScene("BowAndArrow");
+    }
 }

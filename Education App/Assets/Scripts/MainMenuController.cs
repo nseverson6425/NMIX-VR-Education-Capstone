@@ -19,6 +19,7 @@ public class MainMenuController : MonoBehaviour
     void Start()
     {
         slideGameButton.onClick.AddListener(LoadSlideGame);
+        arrowGameButton.onClick.AddListener(LoadArrowGame);
     }
 
     // Update is called once per frame
@@ -40,5 +41,10 @@ public class MainMenuController : MonoBehaviour
     {
         yield return new WaitForSeconds(delayInSeconds);
         levelLoader.LoadSlideGame();
+    }
+
+    private void LoadArrowGame() 
+    {
+        levelLoader.LoadArrowGame();
     }
 }
