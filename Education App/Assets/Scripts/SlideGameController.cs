@@ -121,9 +121,9 @@ public class SlideGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HideControlCanvas(); // make control canvas invisible
-        pauseButton.onClick.AddListener(DisplayControlCanvasAsPause);
-        exitMenuButton.onClick.AddListener(HideControlCanvas);
+        //HideControlCanvas(); // make control canvas invisible
+        //pauseButton.onClick.AddListener(DisplayControlCanvasAsPause);
+        //exitMenuButton.onClick.AddListener(HideControlCanvas);
         nextQuestionButton.onClick.AddListener(WrapUpQuestion);
         skipQuestionButtion.onClick.AddListener(SkipQuestion);
         mainMenuButton.onClick.AddListener(LoadMainMenu);
@@ -163,6 +163,8 @@ public class SlideGameController : MonoBehaviour
         {
             ac.SetSlideGameControllerReference(this); // set reference
         }
+
+        StartGame("Testing Mode");
     }
 
     private void LoadMainMenu()
@@ -303,7 +305,7 @@ public class SlideGameController : MonoBehaviour
     {
         Debug.Log("WrapUpQuestion(): wrapping up question");
 
-        HideControlCanvas(); // hide control menu
+        //HideControlCanvas(); // hide control menu
         gameScoreText.SetText(playerScore.ToString());
 
         foreach (AnswerController ac in answerControllers)
