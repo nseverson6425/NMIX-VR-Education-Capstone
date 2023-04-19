@@ -45,6 +45,6 @@ public class MainMenuController : MonoBehaviour
 
     private void LoadArrowGame() 
     {
-        levelLoader.LoadArrowGame();
+        //levelLoader.LoadArrowGame();
     }
 }
