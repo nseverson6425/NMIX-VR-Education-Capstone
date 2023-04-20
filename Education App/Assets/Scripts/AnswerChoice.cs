@@ -22,6 +22,11 @@ public class AnswerChoice : MonoBehaviour
         Shrunk
     }
 
+    private void Update()
+    {
+
+    }
+
     private void Start()
     {
         canAlert = true;
@@ -34,11 +39,12 @@ public class AnswerChoice : MonoBehaviour
     {
         if (canAlert)
         {
-            //manager.CheckAnswer(choice.text);
-            canAlert = false;
-
             // shrink and blow up
             ReduceSize();
+
+            manager.CheckAnswer(choice.text);
+            canAlert = false;
+
 
             // Instantiate explosion prefab
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
@@ -47,28 +53,31 @@ public class AnswerChoice : MonoBehaviour
 
     public void ResetChoice()
     {
+        Debug.Log("choice being reset");
         choice.text = "";
         canAlert = true;
 
-        if (status == SizeStatus.Shrunk) // need to return to normal size
-        {
-            ReturnToSize();
-        }
+        ReturnToSize();
     }
 
     private void ReduceSize()
     {
+        //transform.localScale = Vector3.one * 0.01f;
+
         StartCoroutine(Shrink());
     }
 
     private void ReturnToSize()
     {
+        //transform.localScale = normalScale;
+
         StartCoroutine(Expand());
     }
 
     public IEnumerator Shrink()
     {
-        normalScale = transform.localScale;
+        status = SizeStatus.Shrunk;
+        //normalScale = transform.localScale;
 
         float elapsedTime = 0f;
         while (transform.localScale.magnitude > 0.1f)
@@ -83,6 +92,7 @@ public class AnswerChoice : MonoBehaviour
 
     public IEnumerator Expand()
     {
+        status = SizeStatus.Normal;
         float elapsedTime = 0f;
         while (transform.localScale != normalScale)
         {

@@ -28,7 +28,6 @@ public class WallManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             int randomPosition = Random.Range(0, wallPositions.Length);
  
-            Debug.Log("spawned wall");
             GameObject wall = Instantiate(wallPrefab, wallPositions[randomPosition].position, Quaternion.Euler(0f, 90f, 0f));
             wall.transform.parent = wallPositions[randomPosition];
 
@@ -64,7 +63,6 @@ public class WallManager : MonoBehaviour
 
     public void ResetWallPositions()
     {
-        Debug.Log("reset wall position");
         foreach (Transform wallPosition in wallPositions)
         {
             foreach (Transform wall in wallPosition)

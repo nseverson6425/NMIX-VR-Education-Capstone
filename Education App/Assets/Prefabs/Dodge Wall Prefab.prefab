@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8819935904420714580}
   - component: {fileID: 8791718312942404642}
   - component: {fileID: 8801279586010628624}
-  - component: {fileID: 8832435398732025240}
-  m_Layer: 0
+  - component: {fileID: 8570097106973571160}
+  - component: {fileID: 672746388509608127}
+  m_Layer: 9
   m_Name: Dodge Wall Prefab
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -84,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8832435398732025240
-MeshCollider:
+--- !u!65 &8570097106973571160
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -94,7 +95,22 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: cbdda53aa8be0d841a4f044817656a44, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2.0000005, y: 2.9999995, z: 0.10000002}
+  m_Center: {x: 1.0000002, y: 1.4999998, z: 0.05000001}
+--- !u!54 &672746388509608127
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823617243614500170}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -11,6 +11,7 @@ public class ProjectileDetector : MonoBehaviour
         ProjectileController projectile = other.GetComponent<ProjectileController>();
         if (projectile != null) // valid choice selection
         {
+            projectile.Explode();
             controller.AlertChoice();
         }
     }

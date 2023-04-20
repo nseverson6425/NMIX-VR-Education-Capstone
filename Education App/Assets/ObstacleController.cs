@@ -38,7 +38,7 @@ public class ObstacleController : MonoBehaviour
         wallManager.endGame = true; // stop the game
         wallManager.ResetWallPositions(); // delete all walls
         status = ObstacleStatus.Failed; // flag obstacle as failed
-        
+        controller.ContinueGame();
     }
 
     public void StartDodgeMinigame()
@@ -50,5 +50,6 @@ public class ObstacleController : MonoBehaviour
     public void EndDodgeMinigame()
     {
         status = ObstacleStatus.Passed; // flag obstacle as passed
+        controller.ContinueGame();
     }
 }

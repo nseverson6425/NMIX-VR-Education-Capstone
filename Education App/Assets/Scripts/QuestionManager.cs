@@ -50,7 +50,7 @@ public class QuestionManager : MonoBehaviour
                 // add points
                 gameManager.AddScore(questionScoreValue);
                 // reset displays
-                ResetDisplays(); // done checking or answers
+                //ResetDisplays(); // done checking or answers
                 gameManager.NextQuestion();
             }
 
@@ -106,6 +106,7 @@ public class QuestionManager : MonoBehaviour
 
     public void ResetDisplays()
     {
+        Debug.Log("reset display");
         foreach (AnswerChoice ac in answerChoices)
         {
             ac.ResetChoice();

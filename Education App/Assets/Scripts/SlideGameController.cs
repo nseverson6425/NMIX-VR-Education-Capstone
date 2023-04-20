@@ -9,10 +9,13 @@ public class SlideGameController : MonoBehaviour
     // game stats
     [SerializeField] GameTimer gameTimer;
     [SerializeField] QuestionManager questionManager;
+    [SerializeField] QuestionBoard board;
     [SerializeField] ObstacleController obstacleController;
     [SerializeField] Transform gameSpawnPoint;
+    [SerializeField] Transform mainSpawnPoint;
     [SerializeField] GameObject player;
 
+    private bool hasObstacle = false;
     private Deck deck;
     private List<string> allAnswers;
     private int score;
@@ -62,96 +65,32 @@ public class SlideGameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isPaused && remainingTime > 0)
+        if (!isPaused)
         {
-            remainingTime -= Time.deltaTime;
+            if (remainingTime > 0)
+            {
+                remainingTime -= Time.deltaTime;
+            }
+            else
+            {
+                remainingTime = 0;
+            }
+            gameTimer.gameTimer.text = remainingTime.ToString("F2");
         }
-        else
-        {
-            remainingTime = 0;
-        }
-        gameTimer.gameTimer.text = remainingTime.ToString("F2");
-    }
-
-    private IEnumerator TimePenaltyAnimationCorountine()
-    {
-        Color32 orange = new Color32(0xF9, 0x7A, 0x3F, 0xFF);
-        Color32 blue = new Color32(0x00, 0xB8, 0xE3, 0xFF);
-
-
-        //StartCoroutine(UpdateTextWithFadeCoroutine(questionText, "", 1f)); //clear text
         
-        //questionDisplayBackground.color = orange; // change to orange
-        
-        yield return new WaitForSeconds(0.2f);
-        //questionDisplayBackground.color = blue; // change to blue 
-
-        yield return new WaitForSeconds(0.2f);
-        //questionDisplayBackground.color = orange; // change to orange
-
-        yield return new WaitForSeconds(0.2f);
-        //questionDisplayBackground.color = blue; // change to blue
-
-        yield return new WaitForSeconds(0.2f);
-        //questionDisplayBackground.color = orange; // change to orange
-
-        //string timePenaltyText = "TIME PENALTY\n" + timePenaltyInSeconds + " second(s)";
-
-        //StartCoroutine(UpdateTextWithFadeCoroutine(questionText, timePenaltyText, 1f)); // display time penalty text
-
-        yield return new WaitForSeconds(3f);
-        //StartCoroutine(UpdateTextWithFadeCoroutine(questionText, "", 1f)); // clear text
-
-        yield return new WaitForSeconds(1f);
-        //questionDisplayBackground.color = blue; // change to blue
-        //elapsedTime += timePenaltyInSeconds;
     }
 
-    private IEnumerator UpdateTextWithFadeCoroutine(TextMeshProUGUI textUI, string newText, float fadeTime)
-    {
-        Debug.Log("fading out text");
-        StartCoroutine(FadeTextToZeroAlpha(fadeTime * 0.5f, textUI)); //fade out
-        yield return new WaitForSeconds(fadeTime * 0.6f); //wait for fade out
-        Debug.Log("replacing and fading in text");
-        textUI.SetText(newText); //replace text
-        StartCoroutine(FadeTextToFullAlpha(fadeTime * 0.5f, textUI)); // fade in
-    }
-
-    public IEnumerator FadeTextToFullAlpha(float time, TextMeshProUGUI textToFadeIn)
-    {
-        textToFadeIn.color = new Color(textToFadeIn.color.r, textToFadeIn.color.g, textToFadeIn.color.b, 0);
-        while (textToFadeIn.color.a < 1.0f)
-        {
-            textToFadeIn.color = new Color(textToFadeIn.color.r, textToFadeIn.color.g, textToFadeIn.color.b, textToFadeIn.color.a + (Time.deltaTime / time));
-            yield return null;
-        }
-    }
-
-    public IEnumerator FadeTextToZeroAlpha(float time, TextMeshProUGUI textToFadeOut)
-    {
-        textToFadeOut.color = new Color(textToFadeOut.color.r, textToFadeOut.color.g, textToFadeOut.color.b, 1);
-        while (textToFadeOut.color.a > 0.0f)
-        {
-            textToFadeOut.color = new Color(textToFadeOut.color.r, textToFadeOut.color.g, textToFadeOut.color.b, textToFadeOut.color.a - (Time.deltaTime / time));
-            yield return null;
-        }
-    }
-
-    private IEnumerator WaitAndPrint(float waitTime, AnswerController ac)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(waitTime);
-            Debug.Log("Reseting display");
-            ac.ResetDisplay();
-        }
-    }
 
     // starts a wrong answer minigame
     public void TriggerObstacle()
     {
-        Debug.Log("trigger obstacle");
-        PauseTime(); // stop counting time
+        if (!hasObstacle)
+        {
+            hasObstacle = true;
+            Debug.Log("trigger obstacle");
+            obstacleController.StartDodgeMinigame();
+            PauseTime(); // stop counting time
+        }
     }
 
     // add to score
@@ -165,13 +104,18 @@ public class SlideGameController : MonoBehaviour
     // called by quit game rock
     public void QuitGame()
     {
-
+        Debug.Log("quit game");
+        // stop timer
+        // stop question
+        // stop obstacle
+        // respawn player
+        player.transform.position = mainSpawnPoint.position;
     }
 
     // called by skip question rock
     public void SkipQuestion()
     {
-        StartCoroutine(TimePenaltyAnimationCorountine());
+        Debug.Log("skip question");
     }
 
     private void PauseTime()
@@ -192,24 +136,87 @@ public class SlideGameController : MonoBehaviour
     public void NextQuestion()
     {
         Set question = deck.NextSet();
+        questionManager.ResetDisplays();
         questionManager.InitializeQuestion(question.answers, allAnswers, question.question, deck.GetDeckName());
     }
 
     public void ContinueGame()
     {
+        hasObstacle = false;
         switch (obstacleController.status)
         {
             case ObstacleController.ObstacleStatus.Passed:
                 //passed
+                ResumeTime();
+                NextQuestion();
                 break;
             case ObstacleController.ObstacleStatus.Failed:
                 //failed
+                ShowPenalty();
+                AddTime(10f);
                 break;
             default:
                 //something broke lol
+                ResumeTime();
+                NextQuestion();
                 break;
         }
+    }
+
+    public void ShowPenalty()
+    {
+        StartCoroutine(PenaltyCoroutine());
+    }
+
+    IEnumerator PenaltyCoroutine()
+    {
+        Color32 orange = new Color32(0xF9, 0x7A, 0x3F, 0xFF);
+        Color32 blue = new Color32(0x00, 0xB8, 0xE3, 0xFF);
+
+        //Fade out current text
+        yield return StartCoroutine(FadeOutText(board.question));
+
+        //Flash image red 3 times
+        for (int i = 0; i < 3; i++)
+        {
+            board.background.color = orange;
+            yield return new WaitForSeconds(0.2f);
+            board.background.color = blue;
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        //Fade in new text
+        board.question.text = "Time Penalty! +10s";
+        yield return StartCoroutine(FadeInText(board.question));
+
+        //Flash image white and red 3 times
+        for (int i = 0; i < 3; i++)
+        {
+            board.background.color = blue;
+            yield return new WaitForSeconds(0.2f);
+            board.background.color = orange;
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        //Fade out text and reset image
+        yield return StartCoroutine(FadeOutText(board.question));
+        board.question.text = " ";
+        board.background.color = blue;
+        board.question.CrossFadeAlpha(1, 0f, false);
+
         ResumeTime();
         NextQuestion();
+    }
+
+    IEnumerator FadeOutText(TextMeshProUGUI t)
+    {
+        t.CrossFadeAlpha(0, 0.5f, false);
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    IEnumerator FadeInText(TextMeshProUGUI t)
+    {
+        t.CrossFadeAlpha(1, 0.5f, false);
+        yield return new WaitForSeconds(0.5f);
     }
 }

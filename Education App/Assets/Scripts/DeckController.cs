@@ -20,7 +20,7 @@ public class DeckController : MonoBehaviour
         decks = new List<Deck>();
 
         // create water cycle deck
-        Debug.Log("Created Water Cycle Deck");
+        //Debug.Log("Created Water Cycle Deck");
         Deck waterCycleDeck = new Deck();
         decks.Add(waterCycleDeck); // add to stored decks
         waterCycleDeck.SetDeckName("Water Cycle"); // set deck name
@@ -64,8 +64,6 @@ public class DeckController : MonoBehaviour
 
         // create button for decks
         CreateButtonOptions();
-
-        gameController.PrepareGameStart(waterCycleDeck);
     }
 
     private void CreateButtonOptions()
@@ -81,12 +79,12 @@ public class DeckController : MonoBehaviour
             // set button text
             deckOption.GetComponent<DeckButton>().deckTitle.text = deck.GetDeckName();
 
-            Debug.Log("Finished generating deck: " + deck.GetDeckName());
+            //Debug.Log("Finished generating deck: " + deck.GetDeckName());
         }
     }
 
     private void StartGame(Deck selection)
     {
-
+        gameController.PrepareGameStart(selection);
     }
 }

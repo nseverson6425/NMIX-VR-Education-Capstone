@@ -31,6 +31,7 @@ public class CannonController : MonoBehaviour
     {
         // Instantiate the prefab at the given position
         GameObject newObject = Instantiate(projectilePrefab, shootPoint.transform.position, Quaternion.identity);
+        Destroy(newObject, 2f);
 
         // Set the parent of the new object to be the same as the parent of this script's game object
         newObject.transform.parent = transform.parent;
