@@ -26,8 +26,51 @@ XR Interaction Toolkit used (compatable with most VR headsets)
     https://www.youtube.com/watch?v=H0xTz4JtWiI&t=354s
 
 
+2. BOMB GAME
+   *  The main purpose of this game is to facilate memorization through a gamified multiple choice
+      question and answer format. 
+   *  Answering questions correctly adds to a player's ongoing score. Answering incorrectly does not
+      directly hurt their score. Instead, it prompts an 'obstacle' which serves as a minigame to break
+      up the sameness of the game.
+         -  As of now, only one minigame has been implemented, a dodging game. Upon answering a question
+            wrong a series of moving walls will be spawned that charge in the direction of the player.
+            If dodged successfully, the game continues after the specified time.
+            if the player fails, they recieve a time penalty which extends the length of their play session.
+   * SCORING
+      -  My current idea is that the final score should be calculated based on the number of correctly
+         answered questions and the amount of time it took to answer those questions. 
+      -  For example if a player answers 5 questions in 10 seconds they would have a higher score than someone
+         who answered them in 15 seconds.
+         -  The time delay from wrong answers has the likely effect of hurting a player's score, but they're
+            still able to redeem themselves for answering more questions correclty. 
+   * OTHER IDEAS
+      -  Minigame idea, Memorization puzzle: In the play area for the bomb game there are 9 stones on the ground,
+         the idea was to use them for a classic memory game. A symbol would appear on the question board and then
+         various symbols would flash on the ground. The player would need to stand on the correct symbol to
+         proceed.
+      -  Minigame idea, Swarm: Upon answering incorrectly the player would be swarmed by many flying objects.
+         Using their cannon they would have to shoot them all down to proceed. 
+   * DOCUMENTATION
+      -  Gameobject names in the scene should be fairly intuitive.
+      -  Scripts also contain a decent amount of comments and method descriptions.
+      -  If help is needed, contact Oscar or ask ChatGPT!
+  
 
-2. DATABASE CONNECTION/WEBSITE
+3. DATABASE CONNECTION/WEBSITE
+   *  CONCEPT
+      -  The main idea for having a website/database is to faciliate the entry of data for use in game and to
+         eventually provide a hub for instructor classroom management. 
+      -  Since the app mostly focuses on flashcard replacement and memorization aid, the premise of our games
+         is to use 'Decks'. These decks contain questions and their corresponding answers. Ideally, an instructor
+         or student would be able to use the website to create a deck from scratch. The website would link to 
+         the database and then the game would be able to pull the deck from the database. 
+      -  Once in-game, students can select decks to practice or compete with. 
+      -  In terms of classroom managment, instructors should be able to launch multiplayer game sessions with
+         specific decks that students can join.
+         -  The players don't necessarily need to share the same virtual space, the multiplayer session would
+            be geared towards allowing instructors to track progress and give students a chance to see how they
+            rank against classmates through an ongoing leaderboard. 
+   *  TECHNICAL
     * A propper database connection is a must if there are any intentions to offically launch
      this game on a VR store
     * A sample SQL database as well as a php based website is provided under the Capstone_Website
@@ -49,7 +92,14 @@ XR Interaction Toolkit used (compatable with most VR headsets)
     * Lastly, make the website look good. It is bare bones right now, but again, if you intend for the 
      project to be published, some stylistic changes would be nice.
 
-3. CLOSING REMARKS
+
+4. DECKS AND SETS
+   *  In terms of this game, a set is a pairing of a question and its corresponding answer(s). A deck, holds
+      multiple sets. 
+   *  There are scripts and classes that handle these.
+
+
+5. CLOSING REMARKS
     * I know this seems like a lot to accomplish, but once some things fall into place (mainly the database),
      the project will begin to be easier. 
     * Unity developement takes patience and practice, but I have no doubt that by the end of the semester 
@@ -61,7 +111,8 @@ XR Interaction Toolkit used (compatable with most VR headsets)
      database setup/management, one specializing in Unity, and a third that could maybe help with a bit of 
      both
 
-4. CONTACTS
+
+6. CONTACTS
     * Feel free to reach out to the previous 2 developers for any question and/or updates (group chat). Personally, 
      I (Nick) would love to see any updates and have no problem lending a helping hand if you feel stuck.
     * This project WILL be cooler than your peers' so expect jealousy when presenting. And remember,
