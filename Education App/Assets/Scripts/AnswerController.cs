@@ -69,7 +69,7 @@ public class AnswerController : MonoBehaviour
     private void processReturnStatus()
     {
         canAcceptSelection = false;
-        returnStatus = gameController.CheckAnswer(displayAnswer);
+        //returnStatus = gameController.CheckAnswer(displayAnswer);
 
         switch (returnStatus)
         {

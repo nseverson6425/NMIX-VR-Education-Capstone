@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Slide Game.unity
     guid: 6a5bb9cb9486b45dba5050b44bdc13de
   - enabled: 1
@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BowAndArrow.unity
     guid: 0bdc2251efd355d45add28195d99d336
+  - enabled: 1
+    path: Assets/Scenes/Bomb Matcher.unity
+    guid: 68b33bc929b63e64d80dffacf6173258
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 28930fda5dce4264c82b4ac7e7973d2d, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 30364b7f39b318b4d91b048140e1fdc2, type: 2}
