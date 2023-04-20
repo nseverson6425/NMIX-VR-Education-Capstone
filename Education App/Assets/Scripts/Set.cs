@@ -12,7 +12,15 @@ public class Set
     public enum QuestionType
     {
         MultipleChoice,
-        TrueOrFalse
+        TrueOrFalse,
+        Undefined
+    }
+
+    public Set()
+    {
+        question = "Question not set";
+        answers = null;
+        questionType = QuestionType.Undefined;
     }
 
     // contructor
