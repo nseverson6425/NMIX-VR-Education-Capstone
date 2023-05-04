@@ -71,26 +71,26 @@ XR Interaction Toolkit used (compatable with most VR headsets)
             be geared towards allowing instructors to track progress and give students a chance to see how they
             rank against classmates through an ongoing leaderboard. 
    *  TECHNICAL
-    * A propper database connection is a must if there are any intentions to offically launch
-     this game on a VR store
-    * A sample SQL database as well as a php based website is provided under the Capstone_Website
-     folder. This is a sample which is intended to be improved upon. THIS IS NOT A LIVE DATABASE/Website
-        - For testing purposes, I use xampp and phpmyadmin to test database and website connection before 
-         actually purchacing a live server. I recommend doing the same until you feel your database is
-         secure and connection to Unity is solid
-        - Upon importing the current database/making a fresh one, connect it to Unity via C# script.
-         Google is helpful with this step.
-        - After the website and database are implemented, use them to cycle through flashcards to use 
-         in game. For example, after an arrow hits a correct answer, the target colors are reset, 
-         the database is queried for the next question/answers, a new question is assigned to the bow,
-         a new answer is assigned to each target, and the scorebaord is updated.
-    * Under the user category in the database, a section should be added for high scores to be used in 
-     the scoreboard.
-    * Another helpful tip: add a "Study set" category to the website/database so all questions/answers
-     are held under a set number, that way when you query a set, you can just cycle through all items
-     in the set number
-    * Lastly, make the website look good. It is bare bones right now, but again, if you intend for the 
-     project to be published, some stylistic changes would be nice.
+      -  A propper database connection is a must if there are any intentions to offically launch
+         this game on a VR store
+      -  A sample SQL database as well as a php based website is provided under the Capstone_Website
+         folder. This is a sample which is intended to be improved upon. THIS IS NOT A LIVE DATABASE/Website
+         -  For testing purposes, I use xampp and phpmyadmin to test database and website connection before 
+            actually purchacing a live server. I recommend doing the same until you feel your database is
+            secure and connection to Unity is solid
+         -  Upon importing the current database/making a fresh one, connect it to Unity via C# script.
+            Google is helpful with this step.
+         -  After the website and database are implemented, use them to cycle through flashcards to use 
+            in game. For example, after an arrow hits a correct answer, the target colors are reset, 
+            the database is queried for the next question/answers, a new question is assigned to the bow,
+            a new answer is assigned to each target, and the scorebaord is updated.
+      -  Under the user category in the database, a section should be added for high scores to be used in 
+         the scoreboard.
+      -  Another helpful tip: add a "Study set" category to the website/database so all questions/answers
+         are held under a set number, that way when you query a set, you can just cycle through all items
+         in the set number
+      -  Lastly, make the website look good. It is bare bones right now, but again, if you intend for the 
+         project to be published, some stylistic changes would be nice.
 
 
 4. DECKS AND SETS
