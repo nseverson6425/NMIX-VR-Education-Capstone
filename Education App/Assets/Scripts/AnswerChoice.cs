@@ -7,6 +7,7 @@ public class AnswerChoice : MonoBehaviour
 {
     [SerializeField] QuestionManager manager;
     [SerializeField] GameObject explosionPrefab;
+    public bool triggerSelection = false;
 
     public TextMeshProUGUI choice;
     private bool canAlert;
@@ -15,6 +16,10 @@ public class AnswerChoice : MonoBehaviour
     // scaling variables
     private Vector3 normalScale;
     [SerializeField] float duration = 1f;
+    private bool isShrinking = false;
+    private bool isExpanding = false;
+    private bool needShrink = false;
+    private bool needExpand = false;
 
     private enum SizeStatus
     {
@@ -24,7 +29,12 @@ public class AnswerChoice : MonoBehaviour
 
     private void Update()
     {
-
+        if (triggerSelection)
+        {
+            triggerSelection = false;
+            Debug.LogWarning("Inspector triggered answer choice; " + choice.text + " ; " + canAlert);
+            AlertChoice();
+        }
     }
 
     private void Start()
@@ -37,7 +47,7 @@ public class AnswerChoice : MonoBehaviour
     // alert QuestionManager that this choice was selected for the question
     public void AlertChoice()
     {
-        if (canAlert)
+        if (canAlert || status == SizeStatus.Normal)
         {
             // shrink and blow up
             ReduceSize();
@@ -53,7 +63,7 @@ public class AnswerChoice : MonoBehaviour
 
     public void ResetChoice()
     {
-        Debug.Log("choice being reset");
+        //Debug.Log("choice being reset");
         choice.text = "";
         canAlert = true;
 
@@ -76,8 +86,13 @@ public class AnswerChoice : MonoBehaviour
 
     public IEnumerator Shrink()
     {
-        status = SizeStatus.Shrunk;
-        //normalScale = transform.localScale;
+        isShrinking = true;
+
+        if (isExpanding) // check if shrinking
+        {
+            needShrink = true; // indicate needs to shrink
+            yield break; // stop coroutine
+        }
 
         float elapsedTime = 0f;
         while (transform.localScale.magnitude > 0.1f)
@@ -88,11 +103,26 @@ public class AnswerChoice : MonoBehaviour
             yield return null;
         }
         transform.localScale = Vector3.one * 0.01f;
+        
+        status = SizeStatus.Shrunk;
+        isShrinking = false;
+        if (needExpand) // reset size
+        {
+            needExpand = false;
+            ReturnToSize();
+        }
     }
 
     public IEnumerator Expand()
     {
-        status = SizeStatus.Normal;
+        isExpanding = true;
+
+        if (isShrinking)
+        {
+            needExpand = true; // indicate need to expand
+            yield break; // stop coroutine
+        }
+
         float elapsedTime = 0f;
         while (transform.localScale != normalScale)
         {
@@ -102,6 +132,14 @@ public class AnswerChoice : MonoBehaviour
             yield return null;
         }
         transform.localScale = normalScale;
+
+        status = SizeStatus.Normal;
+        isExpanding = false;
+        if (needShrink)
+        {
+            needShrink = false;
+            ReduceSize();
+        }
     }
 }
  

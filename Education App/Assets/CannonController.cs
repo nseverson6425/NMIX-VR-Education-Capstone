@@ -23,6 +23,7 @@ public class CannonController : MonoBehaviour
         if (startGame)
         {
             startGame = false;
+            Debug.LogWarning("Inspector triggered game start");
             TriggerGameStart();
         }
     }

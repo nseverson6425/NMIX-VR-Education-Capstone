@@ -56,11 +56,66 @@ public class DeckController : MonoBehaviour
             waterCycleDeck.CreateAnswerList("False"), 
             Set.QuestionType.TrueOrFalse);
 
-        // create test deck
-        Deck testDeck = new Deck();
-        decks.Add(testDeck);
-        testDeck.SetDeckName("Test Deck");
 
+        // DEMO Deck CREATION
+        Deck scienceDeck = new Deck();
+        decks.Add(scienceDeck);
+        scienceDeck.SetDeckName("Auburn Advanced Science");
+
+        scienceDeck.AddSet("What noise does a cow make?",
+            scienceDeck.CreateAnswerList("Moo"),
+            scienceDeck.CreateAnswerList("Oink", "Cluck", "Woof"),
+            Set.QuestionType.StrictAnswers);
+
+        scienceDeck.AddSet("What do bees make?",
+            scienceDeck.CreateAnswerList("Honey"),
+            scienceDeck.CreateAnswerList("Ketchup", "Milk", "H2O"),
+            Set.QuestionType.StrictAnswers);
+
+        scienceDeck.AddSet("What does a thermometer measure?",
+            scienceDeck.CreateAnswerList("Temperature"),
+            scienceDeck.CreateAnswerList("Clouds", "Wind", "Cats"),
+            Set.QuestionType.StrictAnswers);
+
+        scienceDeck.AddSet("What is the largest continent?",
+            scienceDeck.CreateAnswerList("Asia"),
+            scienceDeck.CreateAnswerList("Europe", "Africa", "Florida"),
+            Set.QuestionType.StrictAnswers);
+
+        // create test deck
+        Deck historyDeck = new Deck();
+        decks.Add(historyDeck);
+        historyDeck.SetDeckName("History");
+
+        historyDeck.AddSet("What happened in 1066?",
+            historyDeck.CreateAnswerList("The Battle of Hastings"),
+            historyDeck.CreateAnswerList("WW2", "The discovery of America", "Absolutely nothing"),
+            Set.QuestionType.StrictAnswers);
+
+        historyDeck.AddSet("Which of these was NOT a Roman Leader?",
+            historyDeck.CreateAnswerList("Caesar Salad"),
+            historyDeck.CreateAnswerList("Julius Casear", "Augustus", "Nero"),
+            Set.QuestionType.StrictAnswers);
+
+        historyDeck.AddSet("Where was the Titanic headed to before it sank?",
+            historyDeck.CreateAnswerList("The USA"),
+            historyDeck.CreateAnswerList("Japan", "Mexico", "IDK"),
+            Set.QuestionType.StrictAnswers);
+
+        historyDeck.AddSet("Tomatoes, potatoes, chillies and many other things were brought to Europe in the 16th Century, they're not from Europe originally. Where did they come from?",
+            historyDeck.CreateAnswerList("The Americas"),
+            historyDeck.CreateAnswerList("Africa", "A giant underground cave", "Outer space"),
+            Set.QuestionType.StrictAnswers);
+
+        historyDeck.AddSet("Who was the third man to walk on the moon?",
+            historyDeck.CreateAnswerList("Charles 'Pete' Conrad"),
+            historyDeck.CreateAnswerList("Neil Armstrong", "Mark Hamil", "Astronaut Audrey"),
+            Set.QuestionType.StrictAnswers);
+
+        historyDeck.AddSet("Who did Henry VIII first marry?",
+            historyDeck.CreateAnswerList("Catherine of Aragon"),
+            historyDeck.CreateAnswerList("Meghan Markle", "Kate Middleton", "Holly Willoughby"),
+            Set.QuestionType.StrictAnswers);
 
         // create button for decks
         CreateButtonOptions();

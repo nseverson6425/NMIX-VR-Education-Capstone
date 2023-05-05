@@ -28,6 +28,12 @@ public class Deck
         deck.Add(newSet); // add to sets
     }
 
+    public void AddSet(string question, List<string> answerList, List<string> choicesList, Set.QuestionType type)
+    {
+        Set newSet = new Set(question, answerList, choicesList, type); // create set with params
+        deck.Add(newSet); // add to sets
+    }
+
     public List<string> CreateAnswerList(params string[] answers)
     {
         List<string> answerList = new List<string>();

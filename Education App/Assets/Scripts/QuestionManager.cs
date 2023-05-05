@@ -41,11 +41,12 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer(string answer)
     {
-        bool isFound = correctAnswers.Remove(answer);
+        List<string> checkAnswers = new List<string>(correctAnswers); // make copy of list
+        bool isFound = checkAnswers.Remove(answer);
 
         if (isFound) // correct
         {
-            if (correctAnswers.Count <= 0) // found all answers
+            if (checkAnswers.Count <= 0) // found all answers
             {
                 // add points
                 gameManager.AddScore(questionScoreValue);
@@ -58,6 +59,7 @@ public class QuestionManager : MonoBehaviour
         else // wrong answer
         {
             ResetDisplays(); // need to be cleared for next question anyways
+            questionBoard.question.text = "Incorrect Answer!";
             // trigger game obstacle
             gameManager.TriggerObstacle();
         }
@@ -77,11 +79,13 @@ public class QuestionManager : MonoBehaviour
         // Add correct answers to output list
         foreach (string answer in correctAnswers)
         {
+            Debug.Log("SetAnswers(): answer - " + answer);
             output.Add(answer);
         }
 
+        // account for less than 4 choices
         // If correct answers don't fill the output list, add choices
-        while (output.Count < 4)
+        while ((output.Count < 4) && ((output.Count - correctAnswers.Count) < choices.Count))
         {
             int randomIndex = Random.Range(0, choices.Count);
             string randomChoice = choices[randomIndex];
@@ -106,7 +110,7 @@ public class QuestionManager : MonoBehaviour
 
     public void ResetDisplays()
     {
-        Debug.Log("reset display");
+        //Debug.Log("reset display");
         foreach (AnswerChoice ac in answerChoices)
         {
             ac.ResetChoice();

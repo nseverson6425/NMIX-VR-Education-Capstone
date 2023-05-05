@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 144885877747324276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.28, y: 0.821, z: 2.354}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 144885878470206086}
@@ -116,9 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionEffect: {fileID: 144885878470206084}
-  smokeEffect: {fileID: 5093978835720519495}
   causeExplosion: 0
-  explosionSound: {fileID: 9002323179326058242}
 --- !u!54 &144885877747324275
 Rigidbody:
   m_ObjectHideFlags: 0

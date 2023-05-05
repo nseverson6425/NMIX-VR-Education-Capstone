@@ -57,7 +57,15 @@ public class SlideGameController : MonoBehaviour
     public void StartGame()
     {
         Set questions = deck.NextSet();
-        questionManager.InitializeQuestion(questions.answers, allAnswers, questions.question, deck.GetDeckName());
+
+        if (questions.questionType == Set.QuestionType.StrictAnswers)
+        {
+            questionManager.InitializeQuestion(questions.answers, questions.choices, questions.question, deck.GetDeckName());
+        }
+        else
+        {
+            questionManager.InitializeQuestion(questions.answers, allAnswers, questions.question, deck.GetDeckName());
+        }
         remainingTime = startingTime;
         ResumeTime();
     }
@@ -87,7 +95,7 @@ public class SlideGameController : MonoBehaviour
         if (!hasObstacle)
         {
             hasObstacle = true;
-            Debug.Log("trigger obstacle");
+            //Debug.Log("trigger obstacle");
             obstacleController.StartDodgeMinigame();
             PauseTime(); // stop counting time
         }
@@ -137,7 +145,14 @@ public class SlideGameController : MonoBehaviour
     {
         Set question = deck.NextSet();
         questionManager.ResetDisplays();
-        questionManager.InitializeQuestion(question.answers, allAnswers, question.question, deck.GetDeckName());
+        if (question.questionType == Set.QuestionType.StrictAnswers)
+        {
+            questionManager.InitializeQuestion(question.answers, question.choices, question.question, deck.GetDeckName());
+        }
+        else
+        {
+            questionManager.InitializeQuestion(question.answers, allAnswers, question.question, deck.GetDeckName());
+        }
     }
 
     public void ContinueGame()
